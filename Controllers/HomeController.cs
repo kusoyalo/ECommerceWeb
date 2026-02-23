@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text.Json;
 using ECommerceWeb.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +17,7 @@ namespace ECommerceWeb.Controllers
 
         public IActionResult Index()
         {
+            HttpContext.Session.SetString("isLogin", "false");
             return View();
         }
         public IActionResult Login()
@@ -54,7 +56,8 @@ namespace ECommerceWeb.Controllers
                 return View("Index");
             }
 
-            ViewBag.user = user;
+            HttpContext.Session.SetString("userJson", JsonSerializer.Serialize(user));
+            HttpContext.Session.SetString("isLogin", "true");
 
             var products = (from a in _ecommerceContext.Products
                             orderby Convert.ToInt32(a.ProductId) descending
@@ -73,12 +76,12 @@ namespace ECommerceWeb.Controllers
 
             ViewBag.products = products;
 
-            return View("Menu");
+            return View("Menu", products);
         }
-
-        public IActionResult Privacy()
+        public IActionResult Logout()
         {
-            return View();
+            HttpContext.Session.SetString("isLogin", "false");
+            return View("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

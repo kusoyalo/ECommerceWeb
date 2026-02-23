@@ -1,50 +1,29 @@
-﻿@{
+﻿@model IEnumerable<ECommerceWeb.Models.Products>
+
+@{
     ViewData["Title"] = "Menu";
-    var products = ViewBag.products as List<Products>;
 }
 
-@if (ViewBag.user.Role == "Store" || ViewBag.user.Role == "Admin" || ViewBag.user.Role == "System")
-{
-    <a href="#">商品上架管理</a>
-}
-@if (ViewBag.user.Role == "Admin" || ViewBag.user.Role == "System")
-{
-    <text>&nbsp;&nbsp;&nbsp;&nbsp;</text>
-    <a href="#">系統帳號管理</a>
-}
-
+<span style="color:red">這裡只列出以商品代碼排序最大的前10筆</span>
 <table class="table">
     <thead>
         <tr>
-            <th>ProductId</th>
-            <th>ProductName</th>
-            <th>ProductCategory</th>
-            <th>Stock</th>
-            <th>Status</th>
-            <th>ImagePath</th>
-            <th>CreateTime</th>
-            <th>LastModifiedBy</th>
-            <th>LastModifiedTime</th>
+            <th>商品代碼</th>
+            <th>品名</th>
+            <th>類別</th>
+            <th>商品狀態</th>
+            <th>最後修改時間</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in products)
+        @foreach (var item in Model)
         {
             <tr>
                 <td>@Html.DisplayFor(modelItem => item.ProductId)</td>
                 <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
                 <td>@Html.DisplayFor(modelItem => item.ProductCategory)</td>
-                <td>@Html.DisplayFor(modelItem => item.Stock)</td>
                 <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                <td>@Html.DisplayFor(modelItem => item.ImagePath)</td>
-                <td>@Html.DisplayFor(modelItem => item.CreateTime)</td>
-                <td>@Html.DisplayFor(modelItem => item.LastModifiedBy)</td>
                 <td>@Html.DisplayFor(modelItem => item.LastModifiedTime)</td>
-                @* <td>
-                    <a asp-action="Edit" asp-route-id="@item.NewsId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.NewsId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.NewsId">Delete</a>
-                </td> *@
             </tr>
         }
     </tbody>

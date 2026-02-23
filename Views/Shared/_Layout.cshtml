@@ -1,4 +1,13 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+@using System.Text.Json
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    bool isLogin = HttpContextAccessor.HttpContext?.Session.GetString("isLogin") == "true" ? true : false;
+    
+    string userJson = HttpContextAccessor.HttpContext?.Session.GetString("userJson");
+    Users user = userJson != null ? JsonSerializer.Deserialize<Users>(userJson) : null;
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,14 +29,39 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        @if (isLogin == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Logout">登出</a>
+                            </li>
+                        }
+                        @if (isLogin == true)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">商品查詢</a>
+                            </li>
+                        }
+                        @if (isLogin == true && user != null && (user.Role == "Store" || user.Role == "Admin" || user.Role == "System"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="" asp-action="">商品上架管理</a>
+                            </li>
+                        }
+                        @if (isLogin == true && user != null && (user.Role == "Admin" || user.Role == "System"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="" asp-action="">系統帳號管理</a>
+                            </li>
+                        }
+
                     </ul>
                 </div>
+                @if (isLogin == true && user != null)
+                {
+                    <span>名稱：@user.UserName</span>
+                    <text>&nbsp;&nbsp;&nbsp;&nbsp;</text>
+                    <span>角色：@user.Role</span>
+                }
             </div>
         </nav>
     </header>

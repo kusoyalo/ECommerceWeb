@@ -9,6 +9,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ecommerceContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("ecommerceDatabase")));
 
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddDistributedMemoryCache(); //必要的快取支援
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); //設定逾時時間
+    options.Cookie.HttpOnly = true; //安全性設定
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,6 +29,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+
+app.UseSession(); //啟用中間件
 
 app.UseAuthorization();
 
