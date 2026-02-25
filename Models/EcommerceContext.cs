@@ -25,7 +25,7 @@ public partial class ecommerceContext : DbContext
                 .HasMaxLength(50)
                 .IsUnicode(false);
             entity.Property(e => e.CreateTime).HasColumnType("datetime");
-            entity.Property(e => e.ImagePath).HasMaxLength(200);
+            entity.Property(e => e.ImageFile).HasColumnType("varbinary(max)");
             entity.Property(e => e.LastModifiedBy).HasMaxLength(50);
             entity.Property(e => e.LastModifiedTime).HasColumnType("datetime");
             entity.Property(e => e.ProductCategory).HasMaxLength(50);

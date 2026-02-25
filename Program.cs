@@ -1,7 +1,16 @@
 using ECommerceWeb.Models;
 using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
+
+//初始化 NLog
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 
 var builder = WebApplication.CreateBuilder(args);
+
+//核心設定：移除預設 Log 並改用 NLog
+builder.Logging.ClearProviders();
+builder.Host.UseNLog();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -17,6 +26,18 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true; //安全性設定
 });
 
+//定義策略
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()   //允許所有來源，開發環境方便使用
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+builder.Services.AddControllers();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -30,7 +51,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseRouting();
 
-app.UseSession(); //啟用中間件
+app.UseSession(); //啟用中間件(必須放在UseRouting之後，UseAuthorization之前)
+
+//啟用CORS(必須放在UseRouting之後，UseAuthorization之前)
+app.UseRouting();
+app.UseCors("AllowAll");
 
 app.UseAuthorization();
 
@@ -41,5 +66,7 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}")
     .WithStaticAssets();
 
+//映射控制器路由，這會讓 [Route] 屬性生效
+app.MapControllers();
 
 app.Run();

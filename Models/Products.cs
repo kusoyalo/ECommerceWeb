@@ -15,7 +15,7 @@ public partial class Products
 
     public string? Status { get; set; }
 
-    public string? ImagePath { get; set; }
+    public byte[]? ImageFile{ get; set; }
 
     public DateTime? CreateTime { get; set; }
 

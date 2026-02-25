@@ -38,7 +38,7 @@
                         @if (isLogin == true)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Products" asp-action="Index">商品查詢</a>
+                                <a class="nav-link text-dark" asp-controller="" asp-action="">商品查詢</a>
                             </li>
                         }
                         @if (isLogin == true && user != null && (user.Role == "Store" || user.Role == "Admin" || user.Role == "System"))
@@ -73,7 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2026 - ECommerceWeb@* - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>*@
+            &copy; 2026 - ECommerceWeb
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

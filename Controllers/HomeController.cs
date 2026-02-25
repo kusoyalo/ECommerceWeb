@@ -68,7 +68,7 @@ namespace ECommerceWeb.Controllers
                             ProductCategory = a.ProductCategory,
                             Stock = a.Stock,
                             Status = a.Status,
-                            ImagePath = a.ImagePath,
+                            ImageFile = a.ImageFile,
                             CreateTime = a.CreateTime,
                             LastModifiedBy = a.LastModifiedBy,
                             LastModifiedTime = a.LastModifiedTime
