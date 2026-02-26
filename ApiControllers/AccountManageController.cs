@@ -1,8 +1,6 @@
 ﻿using ECommerceWeb.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
 
 namespace ECommerceWeb.ApiControllers
 {
