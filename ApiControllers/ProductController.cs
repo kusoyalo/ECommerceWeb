@@ -1,10 +1,6 @@
-﻿using Azure.Core;
-using ECommerceWeb.Models;
+﻿using ECommerceWeb.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Build.Evaluation;
 using Microsoft.CodeAnalysis;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace ECommerceWeb.ApiControllers
 {
